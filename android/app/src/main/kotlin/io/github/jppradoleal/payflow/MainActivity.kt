@@ -1,4 +1,4 @@
-package com.example.nlw_together
+package io.github.jppradoleal.payflow
 
 import io.flutter.embedding.android.FlutterActivity
 

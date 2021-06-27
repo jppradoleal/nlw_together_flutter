@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.nlw_together">
+    package="io.github.jppradoleal.payflow">
    <application
         android:label="nlw_together"
         android:icon="@mipmap/ic_launcher">

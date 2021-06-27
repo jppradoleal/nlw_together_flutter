@@ -1,23 +1,46 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:nlw_together/modules/home/home_page.dart';
-import 'package:nlw_together/modules/login/login_page.dart';
-import 'package:nlw_together/modules/splash/splash_page.dart';
-import 'package:nlw_together/shared/themes/app_colors.dart';
+import 'package:nlw_together/app_widget.dart';
 
 void main() {
-  runApp(AppWidget());
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(AppFirebase());
 }
 
-class AppWidget extends StatelessWidget {
-  // This widget is the root of your application.
+class AppFirebase extends StatefulWidget {
+  const AppFirebase({Key? key}) : super(key: key);
+
+  @override
+  _AppFirebaseState createState() => _AppFirebaseState();
+}
+
+class _AppFirebaseState extends State<AppFirebase> {
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primaryColor: AppColors.primary,
-      ),
-      home: HomePage(),
+    return FutureBuilder(
+      future: _initialization,
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Material(
+            child: Center(
+              child: Text(
+                "Não foi possível inicializar o Firebase",
+                textDirection: TextDirection.ltr,
+              ),
+            ),
+          );
+        } else if (snapshot.connectionState == ConnectionState.done) {
+          return AppWidget();
+        }
+
+        return Material(
+          child: Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+      },
     );
   }
 }
